@@ -1,15 +1,18 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { z } from "zod"
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UserValidation } from '@/lib/user';
+import { UserValidation } from '@/lib/validations/user';
 import Image from "next/image"
 import { isBase64Image } from "@/lib/utils"
+import { useUploadThing } from "@/lib/uploadingthings";
+import { updateUser } from "@/lib/actions/user.actions"
+import { usePathname, useRouter } from "next/navigation"
 interface Props {
     user: {
         id: string,
@@ -24,6 +27,9 @@ interface Props {
 }
 const AcountProfile = ({ user, btnTitle }: Props) => {
     const [files, setFiles] = useState<File[]>([]);
+    const { startUpload } = useUploadThing("media");
+    const router = useRouter();
+    const pathname = usePathname();
     const form = useForm({
         resolver: zodResolver(UserValidation),
         defaultValues: {
@@ -48,11 +54,32 @@ const AcountProfile = ({ user, btnTitle }: Props) => {
 
         }
     }
-    function onSubmit(values: z.infer<typeof UserValidation>) {
+    const onSubmit = async (values: z.infer<typeof UserValidation>) => {
         const blob = values.profile_photo;
         const hasImageChanged = isBase64Image(blob);
-
-        console.log(values)
+        if (hasImageChanged) {
+            const imgres = await startUpload(files)
+            if (imgres && imgres[0].url) {
+                values.profile_photo = imgres[0].url;
+            }
+        }
+        // Here I am calling a backend function
+        await updateUser(
+            {
+                userId: user.id,
+                username: values.username,
+                name: values.name,
+                bio: values.bio,
+                image: values.profile_photo,
+                path: pathname
+            }
+        )
+        if (pathname === '/profile/edit') {
+            router.back();
+        }
+        else {
+            router.push('/')
+        }
     }
     return (
         <Form {...form}>
@@ -81,6 +108,7 @@ const AcountProfile = ({ user, btnTitle }: Props) => {
 
                                 />
                             </FormControl>
+                            <FormMessage />
 
                         </FormItem>
                     )}
@@ -101,6 +129,7 @@ const AcountProfile = ({ user, btnTitle }: Props) => {
                                     {...field}
                                 />
                             </FormControl>
+                            <FormMessage />
 
                         </FormItem>
                     )}
@@ -121,7 +150,7 @@ const AcountProfile = ({ user, btnTitle }: Props) => {
                                     {...field}
                                 />
                             </FormControl>
-
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -141,7 +170,7 @@ const AcountProfile = ({ user, btnTitle }: Props) => {
                                     {...field}
                                 />
                             </FormControl>
-
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
