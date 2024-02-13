@@ -8,13 +8,13 @@ const Bottombar = () => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <section className='bottombar'>
+    <div className='bottombar'>
       <div className='bottombar_container'>
         {
           sidebarLinks.map((link: any) => {
             const isActive = (pathname.includes === (link.route) && link.route.length > 1) || pathname === link.route;
             return (
-              <div>
+              <div key={link.label}>
                 <Link
                   href={link.route}
                   key={link.label}
@@ -29,7 +29,7 @@ const Bottombar = () => {
           })
         }
       </div>
-    </section>
+    </div>
   )
 }
 
