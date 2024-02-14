@@ -1,22 +1,22 @@
-import React from 'react'
-import { currentUser } from '@clerk/nextjs'
-import { redirect } from 'next/navigation'
-import { fetchUser } from '@/lib/actions/user.actions';
-import PostThread from '@/app/components/forms/PostThread';
-const page = async () => {
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { fetchUser } from "@/lib/actions/user.actions";
+import PostThread from "@/app/components/forms/PostThread";
+async function Page() {
     const user = await currentUser();
-    if (!user) {
-        return null;
-    }
+    if (!user) return null;
+
     const userInfo = await fetchUser(user.id);
-    if (!userInfo?.onboarded)
-        redirect('/onboarding');
+    // console.log(userInfo._id);
+    if (!userInfo?.onboarded) redirect("/onboarding");
+
     return (
-        <div>
-            <h1 className='head-text'>Create Threads</h1>
+        <>
+            <h1 className='head-text'>Create Thread</h1>
+
             <PostThread userId={userInfo._id} />
-        </div>
-    )
+        </>
+    );
 }
 
-export default page
+export default Page;
