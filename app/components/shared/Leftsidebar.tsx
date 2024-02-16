@@ -3,18 +3,22 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { sidebarLinks } from '@/constants/index'
-import { SignOutButton, SignedIn } from '@clerk/nextjs'
+import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs'
 import logout from "@/public/assets/logout.svg"
 import { useRouter, usePathname } from 'next/navigation'
+
 const Leftsidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { userId } = useAuth();
   return (
     <section className='custom-scrollbar leftsidebar'>
       <div className='flex w-full flex-1 flex-col gap-6 px-6'>
         {
           sidebarLinks.map((link: any) => {
             const isActive = (pathname.includes === (link.route) && link.route.length > 1) || pathname === link.route;
+            if (link.route === '/profile')
+              link.route = `${link.route}/${userId}`
             return (
               <div key={link.label}>
                 <Link
