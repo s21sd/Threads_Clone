@@ -5,7 +5,6 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-
 const page = async ({ params }: { params: { id: string } }) => {
     if (!params.id) {
         return null;
@@ -37,7 +36,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                 />
             </div>
             <div className="mt-7 ">
-                <Comment threadId={thread.id} currentUserimg={user.imageUrl} currentUserId={JSON.stringify(userInfo._id)} />
+                <Comment threadId={thread.id} currentUserImg={user.imageUrl} currentUserId={JSON.stringify(userInfo._id)} />
             </div>
         </section>
     )
