@@ -70,7 +70,7 @@ export const ThreadCard = ({ id,
                             </h4>
                         </Link>
                         <p className='mt-2 text-small-regular text-light-2'>{content}</p>
-                        <div className='flex flex-col mt-5 gap-3'>
+                        <div className={`${isComment && 'mb-7'} flex flex-col mt-5 gap-3`}>
                             <div className='flex gap-3.5 '>
                                 <Image src={heart} alt='heart' width={24} height={24} className='cursor-pointer object-contain' />
                                 <Link href={`/thread/${id}`}>

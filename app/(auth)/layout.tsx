@@ -13,7 +13,10 @@ export default function RootLayout({ children }: {
         <ClerkProvider>
             <html lang='en'>
                 <body className={`${inter.className} bg-dark-1`}>
-                    {children}
+                    <div className='w-full flex justify-center items-center min-h-screen'>
+
+                        {children}
+                    </div>
                 </body>
             </html>
         </ClerkProvider>

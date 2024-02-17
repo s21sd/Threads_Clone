@@ -37,13 +37,11 @@ interface Props {
     currentUserId: string;
     accountId: string;
     accountType: string;
+
 }
 
 async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
     let result: Result = await fetchUserPosts(accountId);;
-
-    // if (accountType === "Community") {
-    //     result = await fetchCommunityPosts(accountId);
     if (!result)
         redirect("/");
     return (
@@ -52,7 +50,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
                 <ThreadCard
                     key={thread._id}
                     id={thread._id}
-                    currentUserId={currentUserId}
+                    currentUser={currentUserId}
                     parentId={thread.parentId}
                     content={thread.text}
                     author={
