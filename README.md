@@ -1,6 +1,8 @@
-# Project Title
+# Threads
 
-A brief description of your project.
+Build a full stack Threads clone using Next.js 14+ with a redesigned look transformed from a Figma design, user interaction to community management, technical implementation, and various features, including nested deep comments, notifications, real-time-search, and more.
+
+
 
 ## Table of Contents
 
@@ -12,8 +14,7 @@ A brief description of your project.
 - [License](#license)
 
 ## Introduction
-
-Briefly introduce your project and its purpose.
+Build a full stack Threads clone using Next.js 14+ with a redesigned look transformed from a Figma design, user interaction to community management, technical implementation, and various features, including nested deep comments, notifications, real-time-search, and more.
 
 ## Features
 
